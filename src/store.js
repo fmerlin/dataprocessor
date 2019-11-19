@@ -1,14 +1,19 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
 import thunk from "redux-thunk";
-import pickBy from 'lodash';
-import {uuidv4} from 'uuid';
+import omit from 'lodash';
+//import {uuidv4} from 'uuid';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
     socket: null,
     messages: [],
-    tasks: {}
+    tasks: {},
+    categories: {
+        "0": {id:"0", name: "Categories", description: "", categories:[] , batches: []}
+    },
+    batches:{},
+    runs: {}
 };
 
 export const store = createStore(
@@ -16,34 +21,42 @@ export const store = createStore(
     composeEnhancers(applyMiddleware(thunk))
 );
 
+function mapput(data, value) {
+    if (arguments.length > 2) {
+        const field = arguments[2];
+        const fields = Array.from(arguments).slice(3);
+        return {...data, [field]: mapput(data[field], value, ...fields)};
+    } else {
+        return value(data);
+    }
+}
+
 function store_reducer(state = initialState, action) {
     switch (action.type) {
+        case'compose':
+            return action.actions.reduce( (state, action) => store_reducer(state, action) , state);
+
         case'push':
-            return {...state, [action.name]: [...state[action.name], action.data]};
+            return mapput(state, v => [...v, action.data], action.table, action.id, action.field);
 
-        case'shift':
-            return {...state, [action.name]: state[action.name].slice(1) };
+        case'pop':
+            return mapput(state, v => v.filter(e => e !== action.data), action.table, action.id, action.field);
 
-        case'update-one-data':
-            return {
-                ...state,
-                [action.name]: {...state[action.name], [action.id]: {...state[action.name][action.id], ...action.data}}
-            };
+        case'set':
+            return mapput(state, v => action.data, action.table, action.id);
 
-        case'set-one-data':
-            return {...state, [action.name]: {...state, [state[action.id]]: action.data}};
+        case'delete':
+            return mapput(state, v => omit(v, [action.id]), action.table);
 
-        case'unset-one-data':
-            return {...state, [action.name]: pickBy(state[action.name], v => v.id !== action.id)};
-
-        case'set-all-data':
-            return {...state, [action.name]: action.data};
+        case'load':
+            return mapput(state, v => action.data, action.table);
 
         default:
             return state;
     }
 }
 
+/*
 class RedisWS {
     constructor(store, url) {
         this.socket = new WebSocket(url);
@@ -73,7 +86,7 @@ class RedisWS {
     }
 
     psubscribe(channel) {
-        return this._send({type: 'psubscribe', channel, data});
+        return this._send({type: 'psubscribe', channel});
     }
 
     publish(channel, data) {
@@ -133,7 +146,7 @@ class CRUD {
                 name: this.type,
                 id,
                 data: resp.json()
-            })).catch(err => dispatch(_message(err)));
+            })).catch(err => dispatch(this._message(err)));
         }
     }
 
@@ -145,7 +158,7 @@ class CRUD {
                 type: 'set-all-data',
                 name: this.type,
                 data: resp.json()
-            })).catch(err => dispatch(_message(err)));
+            })).catch(err => dispatch(this._message(err)));
         }
     }
 
@@ -158,7 +171,7 @@ class CRUD {
                 name: this.type,
                 id: resp.json(),
                 data
-            })).catch(err => dispatch(_message(err)));
+            })).catch(err => dispatch(this._message(err)));
         }
     }
 
@@ -171,7 +184,7 @@ class CRUD {
                 name: this.type,
                 id,
                 data
-            })).catch(err => dispatch(_message(err)));
+            })).catch(err => dispatch(this._message(err)));
         }
     }
 
@@ -183,7 +196,7 @@ class CRUD {
                 type: 'unset-one-data',
                 name: this.type,
                 id
-            })).catch(err => dispatch(_message(err)));
+            })).catch(err => dispatch(this._message(err)));
         }
     }
 
@@ -191,3 +204,4 @@ class CRUD {
         return {type: 'push', name: 'messages', data: {message: err, variant: 'error'}};
     }
 }
+*/
