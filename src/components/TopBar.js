@@ -13,6 +13,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import {useDispatch} from "react-redux";
+import {action_not_implemented} from "../store";
 
 const useStyles = makeStyles(theme => ({
     grow: {
@@ -73,7 +75,7 @@ const useStyles = makeStyles(theme => ({
 export default function PrimarySearchAppBar(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
-
+    const dispatch = useDispatch();
     const isMenuOpen = Boolean(anchorEl);
 
     const handleProfileMenuOpen = event => {
@@ -131,7 +133,7 @@ export default function PrimarySearchAppBar(props) {
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show no new notifications" color="inherit">
+                        <IconButton aria-label="show no new notifications" color="inherit" onClick={() => dispatch(action_not_implemented())}>
                             <Badge badgeContent={0} color="secondary">
                                 <NotificationsIcon />
                             </Badge>

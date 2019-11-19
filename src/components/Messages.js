@@ -9,6 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import {amber, green} from '@material-ui/core/colors';
 import IconButton from "@material-ui/core/IconButton";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
+import {action_delete} from "../store";
 
 const variantIcon = {
     success: CheckCircleIcon,
@@ -46,15 +47,13 @@ const useStyles1 = makeStyles(theme => ({
 
 export default function Messages() {
     const dispatch = useDispatch();
-    const messages = useSelector(state => state.messages);
+    const messages = useSelector(state => Object.values(state.messages));
     const classes = useStyles1();
     const m = messages.length > 0 ? messages[0] : {message:"", variant: "info", id: 0};
     const Icon = variantIcon[m.variant];
-    const closing = () => {
-        dispatch({
-            type: 'shift',
-            name: 'messages',
-        });
+    const closing = (id) => {
+        if (id !== 0)
+            dispatch(action_delete('messages', id));
     };
     return <Snackbar autoHideDuration={2000} open={messages.length > 0} onClose={closing}>
         <SnackbarContent
@@ -67,7 +66,7 @@ export default function Messages() {
         </span>
             }
             action={[
-                <IconButton key="sbclose" aria-label="close" color="inherit" onClick={closing}>
+                <IconButton key="sbclose" aria-label="close" color="inherit" onClick={() => closing(m.id)}>
                     <CloseIcon className={classes.icon}/>
                 </IconButton>,
             ]}

@@ -1,13 +1,13 @@
 import {applyMiddleware, compose, createStore} from "redux";
 import thunk from "redux-thunk";
 import omit from 'lodash';
-//import {uuidv4} from 'uuid';
+import uuid from 'uuid';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
     socket: null,
-    messages: [],
+    messages: {},
     tasks: {},
     categories: {
         "0": {id: "0", name: "Home", description: "This is the root category of your project", categories: [], batches: [] , parents:[]}
@@ -31,6 +31,12 @@ function mapput(data, value) {
     }
 }
 
+function removeKey(col, key) {
+    const res = {... col};
+    delete res[key];
+    return res;
+}
+
 function store_reducer(state = initialState, action) {
     switch (action.type) {
         case'compose':
@@ -46,7 +52,7 @@ function store_reducer(state = initialState, action) {
             return mapput(state, v => action.data, action.table, action.id);
 
         case'delete':
-            return mapput(state, v => omit(v, [action.id]), action.table);
+            return mapput(state, v => removeKey(v, action.id), action.table);
 
         case'load':
             return mapput(state, v => action.data, action.table);
@@ -83,6 +89,17 @@ export function action_add_ref(table1, id1, field1, table2, id2, data2) {
 export function action_del_ref(table1, id1, field1, table2, id2) {
     return action_compose(action_pop(table1,id1,field1,id2), action_delete(table2,id2))
 }
+
+export function action_not_implemented() {
+    const id = uuid.v4();
+    return action_set('messages', id, {id, message: 'Not Implemented', variant: 'warning'})
+}
+
+export function action_info(message) {
+    const id = uuid.v4();
+    return action_set('messages', id, {id, message: message, variant: 'info'})
+}
+
 
 /*
 class RedisWS {
