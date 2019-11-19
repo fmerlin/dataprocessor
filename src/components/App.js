@@ -9,11 +9,11 @@ import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import Messages from "./Messages";
 import {store} from '../store';
-import NotFoundPage from "./NotFoundPage";
+import NotFoundPage from "../pages/NotFoundPage";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import CategoryPage from "./CategoryPage";
-import BatchPage from "./BatchPage";
-import RunPage from "./RunPage";
+import CategoryPage from "../pages/CategoryPage";
+import BatchPage from "../pages/BatchPage";
+import RunPage from "../pages/RunPage";
 
 const App = () => {
     const [opened, setOpen] = React.useState(false);
@@ -28,6 +28,9 @@ const App = () => {
                 duration: theme.transitions.duration.leavingScreen,
             }),
             marginLeft: 0,
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'center'
         },
         contentShift: {
             transition: theme.transitions.create('margin', {
@@ -50,9 +53,9 @@ const App = () => {
                 })}>
                     <Switch>
                         <Route path="/categories/:id" component={CategoryPage}/>
-                        <Route exact path=""><Redirect to="/categories/0"/></Route>
                         <Route path="/batches/:id" component={BatchPage}/>
                         <Route path="/runs/:id" component={RunPage}/>
+                        <Route exact path=""><Redirect to="/categories/0"/></Route>
                         <Route component={NotFoundPage}/>
                     </Switch>
                 </main>

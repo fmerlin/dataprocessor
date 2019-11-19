@@ -13,6 +13,7 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import RunIcon from '@material-ui/icons/Category';
 import IconExpandLess from '@material-ui/icons/ExpandLess';
 import IconExpandMore from '@material-ui/icons/ExpandMore';
+import {ListItemIcon} from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -42,11 +43,9 @@ const subtables = {
 function SideBarItemLeaf(props) {
     const {row, table} = props;
     return (
-        <ListItem button key={row.id} >
-            {icons[table]}&nbsp;
-            <Link to={`/${table}/${row.id}`}>
-                <ListItemText primary={row.name}/>
-            </Link>
+        <ListItem button component={Link} to={`/${table}/${row.id}`}>
+            <ListItemIcon>{icons[table]}</ListItemIcon>
+            <ListItemText primary={row.name}/>
         </ListItem>
     );
 }
@@ -55,10 +54,9 @@ function SideBarItem(props) {
     const {row, table} = props;
     const [opened, setOpen] = React.useState(false);
     return (<div>
-            <ListItem button>
-                {icons[table]} <Link to={`/${table}/${row.id}`}>
-                     <ListItemText primary={row.name}/>
-                </Link>
+            <ListItem button component={Link} to={`/${table}/${row.id}`}>
+                <ListItemIcon>{icons[table]}</ListItemIcon>
+                <ListItemText primary={row.name}/>
                 {opened ? <IconExpandLess style={{marginLeft: "auto"}} onClick={() => setOpen(false)}/> : <IconExpandMore style={{marginLeft: "auto"}} onClick={() => setOpen(true)}/>}
             </ListItem>
             <Collapse in={opened} timeout="auto" unmountOnExit>
