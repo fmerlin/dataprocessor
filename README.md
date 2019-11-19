@@ -1,4 +1,5 @@
 ## Template for a react application
+[![Edit frontend](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/fmerlin/dataprocessor/tree/master/?fontsize=14&hidenavigation=1&theme=dark)
 
 * Includes:
     * TopBar
