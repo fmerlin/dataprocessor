@@ -1,19 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
-import {makeStyles} from '@material-ui/core/styles';
-import ListItem from "@material-ui/core/ListItem";
-import {Link} from "react-router-dom";
-import ListItemText from "@material-ui/core/ListItemText";
 import {useSelector} from "react-redux";
-import Collapse from "@material-ui/core/Collapse";
+import {Link} from "react-router-dom";
+import PropTypes from 'prop-types';
+
+import {List, ListItem, ListItemText, ListItemIcon, Drawer, makeStyles, Collapse} from "@material-ui/core";
+
 import CategoryIcon from '@material-ui/icons/Category';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import RunIcon from '@material-ui/icons/Category';
 import IconExpandLess from '@material-ui/icons/ExpandLess';
 import IconExpandMore from '@material-ui/icons/ExpandMore';
-import {ListItemIcon} from "@material-ui/core";
 
 const drawerWidth = 240;
 

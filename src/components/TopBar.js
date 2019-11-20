@@ -1,4 +1,6 @@
 import React from 'react';
+import {useDispatch} from "react-redux";
+
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,13 +10,13 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
+
+import {action_not_implemented} from "../store";
+
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
+import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import {useDispatch} from "react-redux";
-import {action_not_implemented} from "../store";
 
 const useStyles = makeStyles(theme => ({
     grow: {
@@ -83,7 +85,19 @@ export default function PrimarySearchAppBar(props) {
     };
 
     const handleMenuClose = () => {
+        dispatch(action_not_implemented());
         setAnchorEl(null);
+    };
+
+    const handleSearch = (e) => {
+        if(e.key === 'Enter'){
+            e.preventDefault();
+            dispatch(action_not_implemented());
+        }
+    };
+
+    const handleNotif = () => {
+        dispatch(action_not_implemented());
     };
 
     const menuId = 'primary-search-account-menu';
@@ -129,11 +143,12 @@ export default function PrimarySearchAppBar(props) {
                                 input: classes.inputInput,
                             }}
                             inputProps={{ 'aria-label': 'search' }}
+                            onKeyPress={handleSearch}
                         />
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show no new notifications" color="inherit" onClick={() => dispatch(action_not_implemented())}>
+                        <IconButton aria-label="show no new notifications" color="inherit" onClick={handleNotif}>
                             <Badge badgeContent={0} color="secondary">
                                 <NotificationsIcon />
                             </Badge>

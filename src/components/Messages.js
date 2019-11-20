@@ -1,14 +1,17 @@
 import React from 'react';
-import {makeStyles, Snackbar} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
+
+import {makeStyles, Snackbar} from "@material-ui/core";
+import {amber, green} from '@material-ui/core/colors';
+import IconButton from "@material-ui/core/IconButton";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
+
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import WarningIcon from '@material-ui/icons/Warning';
 import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
-import {amber, green} from '@material-ui/core/colors';
-import IconButton from "@material-ui/core/IconButton";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
+
 import {action_delete} from "../store";
 
 const variantIcon = {

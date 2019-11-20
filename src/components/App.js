@@ -2,7 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 import {Provider} from 'react-redux';
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
+
 import {makeStyles, MuiThemeProvider} from '@material-ui/core/styles';
+import CssBaseline from "@material-ui/core/CssBaseline";
+
 import '../index.css';
 import {theme} from '../theme';
 import TopBar from "./TopBar";
@@ -10,7 +13,6 @@ import SideBar from "./SideBar";
 import Messages from "./Messages";
 import {store} from '../store';
 import NotFoundPage from "../pages/NotFoundPage";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import CategoryPage from "../pages/CategoryPage";
 import BatchPage from "../pages/BatchPage";
 import RunPage from "../pages/RunPage";
@@ -18,7 +20,7 @@ import RunPage from "../pages/RunPage";
 const App = () => {
     const [opened, setOpen] = React.useState(false);
     const toggleSideBar = () => { setOpen(!opened) };
-    const drawerWidth = 240;
+    const drawerWidth = 120;
     const useStyle = makeStyles(theme => ({
         content: {
             flexGrow: 1,

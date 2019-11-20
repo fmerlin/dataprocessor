@@ -1,12 +1,14 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import uuid from 'uuid';
-import MaterialTable from 'material-table';
 import {useParams, Link} from "react-router-dom";
-import {action_add_ref, action_del_ref, action_set} from '../store';
-import {Chip, Paper, Typography, withStyles} from "@material-ui/core";
-import {emphasize} from "@material-ui/core/styles";
+import uuid from 'uuid';
+
+import {Chip, Paper} from "@material-ui/core";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+
+import MaterialTable from 'material-table';
+
+import {action_add_ref, action_del_ref, action_set} from '../store';
 
 
 export default function CategoryPage(props) {
